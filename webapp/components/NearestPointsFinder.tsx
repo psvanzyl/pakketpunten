@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
-// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 import {
   Municipality,
@@ -23,6 +21,9 @@ import {
   minutesForDate,
   parseHHMM,
 } from '@/utils/openingHoursUtils';
+
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 type TimeMode = 'all' | 'now' | 'custom';
 
@@ -56,16 +57,16 @@ const MUNICIPALITY_NAME_MAPPING: Record<string, string> = {
 
 // Provider info matching Map.tsx
 const PROVIDER_INFO: Record<string, { color: string; logoUrl: string; borderColor?: string }> = {
-  DHL: { color: '#FFCC00', logoUrl: '/logos/dhl.svg', borderColor: '#D40511' },
-  PostNL: { color: '#FF6600', logoUrl: '/logos/postnl.svg' },
-  VintedGo: { color: '#09B1BA', logoUrl: '/logos/vintedgo.svg' },
-  DeBuren: { color: '#4CAF50', logoUrl: '/logos/deburen.png' },
-  Amazon: { color: '#FF9900', logoUrl: '/logos/amazon.svg', borderColor: '#146EB4' },
-  DPD: { color: '#DC0032', logoUrl: '/logos/dpd.svg' },
-  GLS: { color: '#003C7E', logoUrl: '/logos/gls.svg', borderColor: '#FFC600' },
-  ViaTim: { color: '#E3007A', logoUrl: '/logos/viatim.svg' },
-  InPost: { color: '#FFCD00', logoUrl: '/logos/inpost.svg', borderColor: '#3B3B3B' },
-  Budbee: { color: '#00C389', logoUrl: '/logos/budbee.svg' },
+  DHL: { color: '#FFCC00', logoUrl: `${BASE_PATH}/logos/dhl.svg`, borderColor: '#D40511' },
+  PostNL: { color: '#FF6600', logoUrl: `${BASE_PATH}/logos/postnl.svg` },
+  VintedGo: { color: '#09B1BA', logoUrl: `${BASE_PATH}/logos/vintedgo.svg` },
+  DeBuren: { color: '#4CAF50', logoUrl: `${BASE_PATH}/logos/deburen.png` },
+  Amazon: { color: '#FF9900', logoUrl: `${BASE_PATH}/logos/amazon.svg`, borderColor: '#146EB4' },
+  DPD: { color: '#DC0032', logoUrl: `${BASE_PATH}/logos/dpd.svg` },
+  GLS: { color: '#003C7E', logoUrl: `${BASE_PATH}/logos/gls.svg`, borderColor: '#FFC600' },
+  ViaTim: { color: '#E3007A', logoUrl: `${BASE_PATH}/logos/viatim.svg` },
+  InPost: { color: '#FFCD00', logoUrl: `${BASE_PATH}/logos/inpost.svg`, borderColor: '#3B3B3B' },
+  Budbee: { color: '#00C389', logoUrl: `${BASE_PATH}/logos/budbee.svg` },
 };
 
 interface SearchResult {
