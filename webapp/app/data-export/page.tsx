@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 interface Municipality {
   name: string;
@@ -16,7 +18,7 @@ export default function DownloadsPage() {
   const [nederlandStats, setNederlandStats] = useState<{ totalPoints: number; municipalityCount: number }>({ totalPoints: 0, municipalityCount: 0 });
 
   useEffect(() => {
-    fetch('/municipalities.json')
+    fetch(`${BASE_PATH}/municipalities.json`)
       .then(res => res.json())
       .then(data => {
         setMunicipalities(data);
@@ -27,7 +29,7 @@ export default function DownloadsPage() {
       .catch(err => console.error('Error loading municipalities:', err));
 
     // Fetch Nederland data to get total pakketpunten count
-    fetch('/data/nederland.geojson')
+    fetch(`${BASE_PATH}/data/nederland.geojson`)
       .then(res => res.json())
       .then(data => {
         const totalPoints = data.features.filter((f: any) => f.properties.type === 'pakketpunt').length;
@@ -41,7 +43,7 @@ export default function DownloadsPage() {
     setDownloadStatus('');
 
     try {
-      const response = await fetch(`/api/download?slug=${slug}&format=${format}`);
+      const response = await fetch(`${BASE_PATH}/api/download?slug=${slug}&format=${format}`);
 
       if (response.status === 429) {
         setDownloadStatus('⚠️ Te veel downloads. Probeer later opnieuw (max 5 downloads per uur).');

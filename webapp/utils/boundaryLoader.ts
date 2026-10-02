@@ -6,6 +6,9 @@
  * that can be loaded in parallel and stay under GitHub's 100MB file size limit.
  */
 
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export interface ProvinceMetadata {
   name: string;
   slug: string;
@@ -47,7 +50,7 @@ export async function loadProvincialBoundaries(
   onProgress?: (progress: BoundaryLoadProgress) => void
 ): Promise<BoundaryData> {
   // First, load the index to know which files to fetch
-  const indexResponse = await fetch('/data/boundaries/index.json');
+  const indexResponse = await fetch(`${BASE_PATH}/data/boundaries/index.json`);
   if (!indexResponse.ok) {
     throw new Error(`Failed to load boundary index: ${indexResponse.status}`);
   }
@@ -76,7 +79,7 @@ export async function loadProvincialBoundaries(
   // Load all provinces in parallel
   const provincialDataPromises = provinces.map(async (province) => {
     try {
-      const response = await fetch(`/data/${province.file}`);
+      const response = await fetch(`${BASE_PATH}/data/${province.file}`);
       if (!response.ok) {
         throw new Error(`Failed to load ${province.name}: ${response.status}`);
       }
@@ -129,7 +132,7 @@ export async function loadSelectedProvincialBoundaries(
   onProgress?: (progress: BoundaryLoadProgress) => void
 ): Promise<BoundaryData> {
   // Load index
-  const indexResponse = await fetch('/data/boundaries/index.json');
+  const indexResponse = await fetch(`${BASE_PATH}/data/boundaries/index.json`);
   if (!indexResponse.ok) {
     throw new Error(`Failed to load boundary index: ${indexResponse.status}`);
   }
@@ -175,7 +178,7 @@ export async function loadSelectedProvincialBoundaries(
   // Load selected provinces in parallel
   const provincialDataPromises = selectedProvinces.map(async (province) => {
     try {
-      const response = await fetch(`/data/${province.file}`);
+      const response = await fetch(`${BASE_PATH}/data/${province.file}`);
       if (!response.ok) {
         throw new Error(`Failed to load ${province.name}: ${response.status}`);
       }
@@ -222,7 +225,7 @@ export async function loadSelectedProvincialBoundaries(
  * Useful for displaying available provinces and file sizes
  */
 export async function getBoundaryIndex(): Promise<BoundaryIndex> {
-  const response = await fetch('/data/boundaries/index.json');
+  const response = await fetch(`${BASE_PATH}/data/boundaries/index.json`);
   if (!response.ok) {
     throw new Error(`Failed to load boundary index: ${response.status}`);
   }

@@ -2,13 +2,19 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function DataExportLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
+  const rawPathname = usePathname();
+  // usePathname may include the configured basePath; normalize before comparing.
+  const pathname = BASE_PATH && rawPathname.startsWith(BASE_PATH)
+    ? rawPathname.slice(BASE_PATH.length) || '/'
+    : rawPathname;
 
   const isDownloads = pathname === '/data-export';
   const isMatrix = pathname === '/data-export/matrix';

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -254,7 +256,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                   Data wordt wekelijks geüpdatet via geautomatiseerde scripts.
                 </p>
                 <a
-                  href="/data-export"
+                  href={`${BASE_PATH}/data-export`}
                   className="inline-flex items-center text-sm text-blue-700 hover:text-blue-900 font-medium"
                 >
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const metadata: Metadata = {
   title: 'API Documentation - Pakketpunten API',
@@ -20,7 +22,7 @@ export default function APIDocsPage() {
   });
 
   // Create the redoc element HTML string
-  const redocHTML = `<redoc spec-url="/openapi.yaml" theme='${theme}' expand-responses="200" required-props-first="true"></redoc>`;
+  const redocHTML = `<redoc spec-url="${BASE_PATH}/openapi.yaml" theme='${theme}' expand-responses="200" required-props-first="true"></redoc>`;
 
   return (
     <div style={{ margin: 0, height: '100vh' }}>

@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Municipality } from '@/types/pakketpunten';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 // Mapping table for PDOK municipality names to our database names
 // PDOK uses official CBS names, which differ from common/simplified names in our database
@@ -106,7 +108,7 @@ export default function AddressSearchInput({
 
     try {
       const response = await fetch(
-        `/api/geocode?q=${encodeURIComponent(searchQuery)}`
+        `${BASE_PATH}/api/geocode?q=${encodeURIComponent(searchQuery)}`
       );
 
       if (!response.ok) {
@@ -152,7 +154,7 @@ export default function AddressSearchInput({
 
     try {
       // Lookup full details for the selected address
-      const response = await fetch(`/api/geocode?id=${encodeURIComponent(result.id)}`);
+      const response = await fetch(`${BASE_PATH}/api/geocode?id=${encodeURIComponent(result.id)}`);
 
       if (!response.ok) {
         throw new Error('Address lookup failed');

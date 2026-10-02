@@ -229,6 +229,9 @@ function ScaleControl() {
   return null;
 }
 
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 // Vervoerder info with logo URLs and colors
 const PROVIDER_INFO: Record<string, {
   background: string;
@@ -240,55 +243,55 @@ const PROVIDER_INFO: Record<string, {
     background: '#FFCC00',
     borderColor: '#D40511',
     color: '#FFCC00',
-    logoUrl: '/logos/dhl.svg',
+    logoUrl: `${BASE_PATH}/logos/dhl.svg`,
   },
   PostNL: {
     background: '#FF6600',
     color: '#FF6600',
-    logoUrl: '/logos/postnl.svg',
+    logoUrl: `${BASE_PATH}/logos/postnl.svg`,
   },
   VintedGo: {
     background: '#09B1BA',
     color: '#09B1BA',
-    logoUrl: '/logos/vintedgo.svg',
+    logoUrl: `${BASE_PATH}/logos/vintedgo.svg`,
   },
   DeBuren: {
     background: '#4CAF50',
     color: '#4CAF50',
-    logoUrl: '/logos/deburen.png',
+    logoUrl: `${BASE_PATH}/logos/deburen.png`,
   },
   Amazon: {
     background: '#FF9900',
     borderColor: '#146EB4',
     color: '#FF9900',
-    logoUrl: '/logos/amazon.svg',
+    logoUrl: `${BASE_PATH}/logos/amazon.svg`,
   },
   DPD: {
     background: '#DC0032',
     color: '#DC0032',
-    logoUrl: '/logos/dpd.svg',
+    logoUrl: `${BASE_PATH}/logos/dpd.svg`,
   },
   GLS: {
     background: '#FFC600',
     borderColor: '#003C7E',
     color: '#003C7E',
-    logoUrl: '/logos/gls.svg',
+    logoUrl: `${BASE_PATH}/logos/gls.svg`,
   },
   ViaTim: {
     background: '#E3007A',
     color: '#E3007A',
-    logoUrl: '/logos/viatim.svg',
+    logoUrl: `${BASE_PATH}/logos/viatim.svg`,
   },
   InPost: {
     background: '#FFCD00',
     borderColor: '#3B3B3B',
     color: '#FFCD00',
-    logoUrl: '/logos/inpost.svg',
+    logoUrl: `${BASE_PATH}/logos/inpost.svg`,
   },
   Budbee: {
     background: '#00C389',
     color: '#00C389',
-    logoUrl: '/logos/budbee.svg',
+    logoUrl: `${BASE_PATH}/logos/budbee.svg`,
   },
 };
 

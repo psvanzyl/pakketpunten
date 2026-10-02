@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
+// Opt-in sub-path support: empty for standalone/root deployments (unchanged),
+// set to e.g. "/dashboards/pakketpunten" at build time for the zeroemission portal.
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 const nextConfig: NextConfig = {
   output: "standalone",
+  ...(basePath ? { basePath } : {}),
   // Enable compression for all responses
   compress: true,
 

@@ -35,18 +35,21 @@ const PROVIDER_COLORS: { [key: string]: string } = {
   Budbee: '#00C389',
 };
 
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 // Provider logos
 const PROVIDER_LOGOS: { [key: string]: string } = {
-  DHL: '/logos/dhl.svg',
-  PostNL: '/logos/postnl.svg',
-  DPD: '/logos/dpd.svg',
-  VintedGo: '/logos/vintedgo.svg',
-  DeBuren: '/logos/deburen.png',
-  Amazon: '/logos/amazon.svg',
-  GLS: '/logos/gls.svg',
-  ViaTim: '/logos/viatim.svg',
-  InPost: '/logos/inpost.svg',
-  Budbee: '/logos/budbee.svg',
+  DHL: `${BASE_PATH}/logos/dhl.svg`,
+  PostNL: `${BASE_PATH}/logos/postnl.svg`,
+  DPD: `${BASE_PATH}/logos/dpd.svg`,
+  VintedGo: `${BASE_PATH}/logos/vintedgo.svg`,
+  DeBuren: `${BASE_PATH}/logos/deburen.png`,
+  Amazon: `${BASE_PATH}/logos/amazon.svg`,
+  GLS: `${BASE_PATH}/logos/gls.svg`,
+  ViaTim: `${BASE_PATH}/logos/viatim.svg`,
+  InPost: `${BASE_PATH}/logos/inpost.svg`,
+  Budbee: `${BASE_PATH}/logos/budbee.svg`,
 };
 
 export default function ProviderHistoryModal({

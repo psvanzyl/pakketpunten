@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 interface CarrierStats {
   successful_municipalities: number;
@@ -26,7 +28,7 @@ export default function UpdatesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/update-status')
+    fetch(`${BASE_PATH}/api/update-status`)
       .then(res => res.json())
       .then(data => {
         setUpdateStatus(data);

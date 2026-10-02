@@ -1,0 +1,40 @@
+# zeroemission portal deployment (sub-path: /dashboards/pakketpunten)
+# Self-contained copy of ./Dockerfile with the base path baked in at build time.
+# The standalone deployment keeps using ./Dockerfile and is unaffected.
+# Stage 1: Build
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+# Copy package files
+COPY webapp/package.json webapp/package-lock.json ./
+RUN npm ci
+
+# Copy source
+COPY webapp/ .
+
+# Sub-path for the zeroemission portal (Next inlines NEXT_PUBLIC_* at build time)
+ENV NEXT_PUBLIC_BASE_PATH=/dashboards/pakketpunten
+
+# Build standalone output
+RUN npm run build
+
+# Stage 2: Production
+FROM node:22-alpine AS runner
+
+WORKDIR /app
+
+# Copy standalone build
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+
+EXPOSE 3000
+
+ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
+# Needed at runtime by server components (e.g. the /api/v1/docs redoc spec URL)
+ENV NEXT_PUBLIC_BASE_PATH=/dashboards/pakketpunten
+
+CMD ["node", "server.js"]

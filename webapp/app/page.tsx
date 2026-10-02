@@ -12,6 +12,9 @@ import NearestPointsFinder from '@/components/NearestPointsFinder';
 import { Municipality, PakketpuntData, Filters, PakketpuntProperties, PakketpuntFeature, PointCategory, ServiceFilter, getPointCategory } from '@/types/pakketpunten';
 import { loadProvincialBoundaries, BoundaryLoadProgress } from '@/utils/boundaryLoader';
 
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 // Mobile menu icon component
 function MenuIcon({ className }: { className?: string }) {
   return (
@@ -108,7 +111,7 @@ export default function Home() {
 
   // Load municipalities on mount
   useEffect(() => {
-    fetch('/municipalities.json')
+    fetch(`${BASE_PATH}/municipalities.json`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -182,7 +185,7 @@ export default function Home() {
     }
 
     setLoading(true);
-    fetch(`/data/${selectedMunicipality}.geojson`)
+    fetch(`${BASE_PATH}/data/${selectedMunicipality}.geojson`)
       .then(async (res) => {
         console.log('Response status:', res.status);
         console.log('Content-Type:', res.headers.get('content-type'));
@@ -236,7 +239,7 @@ export default function Home() {
       })
       .catch((err) => {
         console.error('Error loading data:', err);
-        console.error('Failed to load:', `/data/${selectedMunicipality}.geojson`);
+        console.error('Failed to load:', `${BASE_PATH}/data/${selectedMunicipality}.geojson`);
       })
       .finally(() => setLoading(false));
   }, [selectedMunicipality]);
@@ -522,7 +525,7 @@ export default function Home() {
           {/* Desktop action buttons - hidden on mobile */}
           <div className="hidden lg:flex gap-2 ml-auto">
             <a
-              href="/data-export"
+              href={`${BASE_PATH}/data-export`}
               className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition flex items-center"
             >
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -531,7 +534,7 @@ export default function Home() {
               Data
             </a>
             <a
-              href="/api/v1/docs"
+              href={`${BASE_PATH}/api/v1/docs`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition flex items-center"
@@ -600,7 +603,7 @@ export default function Home() {
                 Dichtstbijzijnde zoeken
               </button>
               <a
-                href="/data-export"
+                href={`${BASE_PATH}/data-export`}
                 className="flex items-center px-3 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition"
               >
                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -609,7 +612,7 @@ export default function Home() {
                 Data
               </a>
               <a
-                href="/api/v1/docs"
+                href={`${BASE_PATH}/api/v1/docs`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center px-3 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition"

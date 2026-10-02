@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 import {
   Municipality,
   PakketpuntData,
@@ -304,7 +307,7 @@ export default function NearestPointsFinder({
     setError(null);
 
     try {
-      const response = await fetch(`/api/geocode?q=${encodeURIComponent(searchQuery)}`);
+      const response = await fetch(`${BASE_PATH}/api/geocode?q=${encodeURIComponent(searchQuery)}`);
       if (!response.ok) throw new Error('Geocoding failed');
 
       const data = await response.json();
@@ -343,7 +346,7 @@ export default function NearestPointsFinder({
     setError(null);
 
     try {
-      const response = await fetch(`/api/geocode?id=${encodeURIComponent(result.id)}`);
+      const response = await fetch(`${BASE_PATH}/api/geocode?id=${encodeURIComponent(result.id)}`);
       if (!response.ok) throw new Error('Address lookup failed');
 
       const details = await response.json();
@@ -400,7 +403,7 @@ export default function NearestPointsFinder({
         const { latitude, longitude } = position.coords;
         try {
           const response = await fetch(
-            `/api/geocode?lat=${latitude}&lon=${longitude}`
+            `${BASE_PATH}/api/geocode?lat=${latitude}&lon=${longitude}`
           );
           if (!response.ok) {
             throw new Error(`Reverse geocode failed: ${response.status}`);
@@ -462,7 +465,7 @@ export default function NearestPointsFinder({
     setShowDropdown(false);
 
     try {
-      const suggestResponse = await fetch(`/api/geocode?q=${encodeURIComponent(query)}`);
+      const suggestResponse = await fetch(`${BASE_PATH}/api/geocode?q=${encodeURIComponent(query)}`);
       if (!suggestResponse.ok) throw new Error('Geocoding failed');
 
       const suggestData = await suggestResponse.json();

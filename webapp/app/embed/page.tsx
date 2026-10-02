@@ -4,6 +4,8 @@ import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { PakketpuntData, Filters } from '@/types/pakketpunten';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const MapView = dynamic(() => import('@/components/Map'), {
   ssr: false,
@@ -41,7 +43,7 @@ function EmbedContent() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/data/${gemeente}.geojson`)
+    fetch(`${BASE_PATH}/data/${gemeente}.geojson`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -65,7 +67,7 @@ function EmbedContent() {
           {loading ? 'Laden...' : `${municipalityName} — Pakketpunten`}
         </span>
         <a
-          href={`${typeof window !== 'undefined' ? window.location.origin : ''}/?gemeente=${gemeente === 'nederland' ? 'alle-gemeenten' : gemeente}`}
+          href={`${typeof window !== 'undefined' ? window.location.origin : ''}${BASE_PATH}/?gemeente=${gemeente === 'nederland' ? 'alle-gemeenten' : gemeente}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs text-blue-600 hover:text-blue-800 hover:underline font-medium"

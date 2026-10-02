@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -16,7 +18,7 @@ export default function ShareModal({ isOpen, onClose, municipality, municipality
   const [embedHeight, setEmbedHeight] = useState('500');
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+  const baseUrl = (typeof window !== 'undefined' ? window.location.origin : '') + BASE_PATH;
   const urlSlug = municipality === 'nederland' ? 'alle-gemeenten' : municipality;
   const shareUrl = `${baseUrl}/?gemeente=${urlSlug}`;
   const embedUrl = `${baseUrl}/embed?gemeente=${urlSlug}`;

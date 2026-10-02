@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+// Opt-in sub-path prefix (e.g. "/dashboards/pakketpunten"); empty at the root.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function TestPage() {
   const [status, setStatus] = useState<string>('Loading...');
@@ -8,7 +10,7 @@ export default function TestPage() {
 
   useEffect(() => {
     console.log('Fetching amsterdam.geojson...');
-    fetch('/data/amsterdam.geojson')
+    fetch(`${BASE_PATH}/data/amsterdam.geojson`)
       .then(res => {
         console.log('Response status:', res.status);
         console.log('Response OK:', res.ok);
